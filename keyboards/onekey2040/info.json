@@ -1,0 +1,27 @@
+{
+    "manufacturer": "twitch0001",
+    "keyboard_name": "onekey2040",
+    "maintainer": "twitch0001",
+    "bootloader": "rp2040",
+    "diode_direction": "COL2ROW",
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true
+    },
+    "processor": "RP2040",
+    "url": "",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x0012",
+        "vid": "0xFEE1"
+    },
+    "layouts": {
+        "LAYOUT_ortho_1x4": {
+            "layout": [{"x":0, "y":0}, {"x":1, "y":0}, {"x":2, "y":0}, {"x":3, "y":0}]
+        }
+    }
+}
