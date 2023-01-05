@@ -42,16 +42,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └──────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┴───────┘
      */
     [_LOWER] = LAYOUT_ortho_4x12(
-        KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    QK_BOOT,
+        KC_ESC,    DB_TOGG,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    QK_BOOT,
         KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_K,    KC_ENTER,
         KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_NUBS,    KC_B,    KC_N,    KC_M,    KC_I,    KC_J,    KC_K,    KC_L,
-        KC_A,    KC_LCTL,    KC_LALT,    KC_LGUI,    _______,    KC_SPC,    _______,    KC_LEFT,    KC_DOWN,    KC_UP,    KC_RGHT ,    KC_LCTL
+         _______,    _______,    _______,    _______,    _______,    _______,   _______,    _______,   _______,    _______,   _______,    KC_LCTL
     ),
     /*
      * ┌──────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┬───────┐
      * │  `   │       │   [   │   ]   │       │       │       │       │       │       │       │  DEL  │
      * ├──────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼
-     * │ TAB  │   A   │   (   │   )   │   F   │   G   │   H   │   J   │   K   │   L   │       │ ENTER │
+     * │ TAB  │   A   │   (   │   )   │   F   │   G   │   H   │   J   │   K   │   L   │       │  HOME │
      * ├──────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼
      * │LSHIFT│   Z   │   X   │   C   │   V   │   B   │   N   │   M   │       │       │       │  BKSP │
      * ├──────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼───────┼
@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
     [_RAISE] = LAYOUT_ortho_4x12(
         KC_GRV ,    _______,    KC_LBRC,    KC_RBRC,    _______,    _______,   _______,    _______,    _______,    _______,  _______,    KC_DEL  ,
-        _______,    _______,    KC_LPRN,    KC_RPRN,    _______,    _______,   _______,    _______,    _______,    _______,  _______,    KC_ENTER,
+        _______,    _______,    KC_LPRN,    KC_RPRN,    _______,    _______,   _______,    _______,    _______,    _______,  _______,    KC_HOME,
         _______,    _______,    KC_LCBR,    KC_RCBR,    _______,    _______,   _______,    _______,    _______,    _______,  _______,    KC_L    ,
         _______,    _______,    _______,    _______,    _______,    _______,   _______,    _______,   _______,    _______,   _______,    KC_LCTL
     ),
@@ -82,3 +82,44 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______ , _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 };
+
+
+const char *current_layer_string(void) {
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            return "base";
+        case _LOWER:
+            return "lower";
+         case _RAISE:
+            return "raise";
+         case _FUNC:
+            return "function";
+    }
+    return "unknown";
+}
+
+typedef struct {
+    double h;
+    double s;
+    double v;
+} hsv;
+
+hsv current_layer_colour(void) {
+    hsv out;
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            out.h = 0;
+            out.s = 0;
+            out.v = 3;
+            return out;
+        case _LOWER:
+            out.h = 19.13;
+            out.s = 255;
+            out.v = 191.25;
+            return out;
+    }
+    out.h = 0;
+    out.s = 0;
+    out.v = 3;
+    return out;
+}
