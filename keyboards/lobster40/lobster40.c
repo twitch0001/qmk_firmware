@@ -8,6 +8,7 @@
 painter_device_t display;
 painter_font_handle_t font;
 
+
 painter_image_handle_t loaded_image;
 uint8_t raw_image_buffer[12000];
 char track_title[64] = {0};
@@ -43,6 +44,18 @@ void keyboard_post_init_kb(void) {
     snprintf(buf, sizeof(buf), "layer: %s", layer_name);
     qp_drawtext(display, 4, 4, font, buf);
 }
+
+
+// Turn display on/off based on keeb power
+void suspend_power_down_user(void) {
+    writePinLow(GP15);
+}
+
+
+void suspend_wakeup_init_user(void) {
+    writePinHigh(GP15);
+}
+
 
 void reset_display(void) {
     extern const hsv current_layer_colour(void);
@@ -129,7 +142,7 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
         return;
     }
 
-    if (data[0] == 31 && data[1] == 20) { // title transmission.
+    if (data[0] == 31 && data[1] == 20) { // title transmission
         println("Adding to title");
         for (int i = 2; i < length; i++) {
             track_title[track_point] = data[i];
